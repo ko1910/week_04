@@ -1,0 +1,57 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string removeCharAtIndex(string s, int k) {
+    string t;
+    for (int i = 0; i < s.length(); i++) {
+        if (i != k) {
+            t += s[i];
+        }
+    }
+    return t;
+}
+
+bool isPalindrome(string s) {
+    int left = 0, right = s.length() - 1;
+    while (left < right) {
+        if (s[left] != s[right]) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+    return true;
+}
+
+int palindromeIndex(string s) {
+    for (int i = 0; i < s.length() / 2; i++) {
+        if (s[i] != s[s.length() - i - 1]) {
+            string withoutChar = removeCharAtIndex(s, i);
+            if (isPalindrome(withoutChar)) {
+                return i;
+            }
+            // Try removing the other character
+            withoutChar = removeCharAtIndex(s, s.length() - i - 1);
+            if (isPalindrome(withoutChar)) {
+                return s.length() - i - 1;
+            }
+            // If neither makes it a palindrome, then it's not possible
+            return -1;
+        }
+    }
+    return -1; // If it's already a palindrome
+}
+
+int main() {
+    int q;
+    cin >> q;
+    for (int i=0; i<q; i++)
+    {
+    string s;
+    cin >> s;
+    cout << palindromeIndex(s)<< endl;
+    }
+    return 0;
+}
